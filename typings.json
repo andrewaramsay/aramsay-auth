@@ -1,0 +1,12 @@
+{
+  "globalDependencies": {
+    "bcrypt-nodejs": "registry:dt/bcrypt-nodejs#0.0.0+20160316155526",
+    "jasmine": "registry:dt/jasmine#2.5.0+20161003201800",
+    "jwt-simple": "registry:dt/jwt-simple#0.5.0+20160401095215",
+    "node": "registry:dt/node#6.0.0+20160928143418"
+  },
+  "dependencies": {
+    "lodash": "registry:npm/lodash#4.0.0+20160723033700",
+    "mongoose": "registry:npm/mongoose#4.3.5+20160628072220"
+  }
+}

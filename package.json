@@ -1,0 +1,37 @@
+{
+  "name": "aramsay-auth",
+  "version": "1.0.0",
+  "description": "Node TypeScript authentication / authorization system for mongo DB",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npm test && rimraf dist && tsc --project tsconfig.json",
+    "test": "set JASMINE_CONFIG_PATH=jasmine.json&& jasmine-ts src/**/*.spec.ts --watch src/**/*.ts",
+    "autotest": "nodemon --watch src/**/*.* --exec npm test"
+  },
+  "keywords": [
+    "auth",
+    "mongodb",
+    "node"
+  ],
+  "author": "Andrew Ramsay <aramsaybusiness@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "jasmine": "^2.5.2",
+    "jasmine-ts": "0.0.3",
+    "nodemon": "^1.10.2",
+    "rimraf": "^2.5.4",
+    "typescript": "^2.0.3",
+    "typings": "^1.4.0"
+  },
+  "dependencies": {
+    "aramsay-framework": "^1.0.1",
+    "aramsay-injector": "^1.0.1",
+    "bcrypt-nodejs": "0.0.3",
+    "express": "^4.14.0",
+    "jwt-simple": "^0.5.0",
+    "lodash": "^4.16.3",
+    "moment": "^2.15.1",
+    "mongoose": "^4.6.2",
+    "passport": "^0.3.2"
+  }
+}
