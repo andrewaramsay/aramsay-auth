@@ -1,18 +1,27 @@
-import { DbWrite } from 'aramsay-framework';
-import { Model } from 'mongoose';
+import { DbUpdate } from 'aramsay-framework';
 
-import { User, UserModel } from '../models/user';
+import { User } from '../models/user';
 
-export class SaveUser implements DbWrite<User> {
+export class SaveUser implements DbUpdate {
     constructor(private user: User) {
         this.user.username = this.user.username.toLowerCase();
     }
 
-    get model() {
-        return UserModel;
+    get collection() {
+        return 'users';
     }
 
-    get data() {
-        return this.user;
+    get filter() {
+        return {
+            username: this.user.username 
+        };
+    }
+
+    get options() {
+        return { upsert: true };
+    }
+
+    get documents() {
+        return [this.user];
     }
 }

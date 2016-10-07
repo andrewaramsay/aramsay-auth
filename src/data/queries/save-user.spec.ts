@@ -1,5 +1,5 @@
 /// <reference path="../../../typings/index.d.ts" />
-import { User, UserModel } from '../models/user';
+import { User } from '../models/user';
 import { SaveUser } from './save-user';
 
 describe('SaveUser', () => {
@@ -7,20 +7,35 @@ describe('SaveUser', () => {
     let user: User;
 
     beforeEach(() => {
-        user = <User>{username: 'name'};
+        user = <User>{ username: 'username' };
 
         target = new SaveUser(user);
     });
     
-    describe('model', () => {
-        it('returns UserModel', () => {
-            expect(target.model).toBe(UserModel);
+    describe('collection', () => {
+        it('returns "users"', () => {
+            expect(target.collection).toBe('users');
         });
     });
 
-    describe('data', () => {
+    describe('filter', () => {
+        it('filters the id equals the specified id', () => {
+            expect(target.filter.username).toBe('username');
+            expect(Object.keys(target.filter).length).toBe(1);
+        });
+
+        it('converts the username into lowercase', () => {
+            let newTarget = new SaveUser(<User>{ username: 'CAPITAL' });
+            
+            expect(newTarget.filter.username).toBe('capital');
+            expect(Object.keys(target.filter).length).toBe(1);
+        });
+    });
+
+    describe('documents', () => {
         it('returns the user', () => {
-            expect(target.data).toBe(user);
+            expect(target.documents.length).toBe(1);
+            expect(target.documents[0]).toBe(user);
         });
     });
 });

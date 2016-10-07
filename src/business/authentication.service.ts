@@ -1,10 +1,12 @@
-import { NodeCallback, MomentAdapter, TimeoutAdapter } from 'aramsay-framework';
-import { Injectable } from 'aramsay-injector';
+import { NodeCallback, TimeoutAdapter } from 'aramsay-framework';
+import { Injectable, Inject } from 'aramsay-injector';
+import { Moment } from 'moment';
 
-import { BcryptAdapter, JwtAdapter } from '../util';
+import { Bcrypt, Jwt } from '../util';
 import { UsersRepository } from '../data/repositories/users.repository';
 import { User } from './models/user';
 import { AuthCallback, Token, TokenPayload } from './types';
+import { momentInjectorToken, jwtInjectorToken, bcryptInjectorToken } from '../dependency-injection/auth-module';
 
 const MILLISECONDS = 1000;
 
@@ -16,14 +18,14 @@ export interface AuthenticationConfig {
     tokenDurationInSeconds: number;
 }
 
-@Injectable()
+@Injectable({ singleton: true })
 export class AuthenticationService {
     constructor(
         private options: AuthenticationConfig,
         private usersRepository: UsersRepository,
-        private moment: MomentAdapter,
-        private jwt: JwtAdapter,
-        private bcrypt: BcryptAdapter,
+        @Inject(momentInjectorToken) private moment: () => Moment,
+        @Inject(jwtInjectorToken) private jwt: Jwt,
+        @Inject(bcryptInjectorToken) private bcrypt: Bcrypt,
         private timeout: TimeoutAdapter) {
     }
 
@@ -88,7 +90,7 @@ export class AuthenticationService {
                 return callback(err, null, authErr);
             }
 
-            if (this.moment.now().unix() > payload.exp) {
+            if (this.moment().unix() > payload.exp) {
                 return callback(null, null, new Error('Token Expired'));
             }
 
@@ -111,7 +113,7 @@ export class AuthenticationService {
     }
 
     createToken(iss: string, sub: string): Token {
-        let exp = this.moment.now().unix() + this.options.tokenDurationInSeconds;
+        let exp = this.moment().unix() + this.options.tokenDurationInSeconds;
 
         let payload: TokenPayload = {
             iss,

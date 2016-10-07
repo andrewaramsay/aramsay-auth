@@ -1,20 +1,15 @@
-import { QueryById } from 'aramsay-framework';
+import { ObjectID } from 'mongodb';
 
-import { User, UserModel } from '../models/user';
+import { FindUserBase } from './find-user-base';
 
-export class FindUserById implements QueryById<User> {
-    constructor(private userId: string) {
+export class FindUserById extends FindUserBase {
+    constructor(private userId: ObjectID) {
+        super();
     }
 
-    get model() {
-        return UserModel;
-    }
-    
-    get populate() {
-        return ['roles'];
-    }
-
-    get id() {
-        return this.userId;
+    get filter() {
+        return { 
+            _id: this.userId 
+        };
     }
 }

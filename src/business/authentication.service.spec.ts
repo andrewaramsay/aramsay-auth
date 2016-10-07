@@ -1,9 +1,9 @@
 /// <reference path="../../typings/index.d.ts" />
-import { MomentAdapter, TimeoutAdapter, spy, callCallback } from 'aramsay-framework';
+import { TimeoutAdapter, spy, callCallback } from 'aramsay-framework';
 import { Moment } from 'moment';
 import Spy = jasmine.Spy;
 
-import { BcryptAdapter, JwtAdapter } from '../util';
+import { Bcrypt, Jwt } from '../util';
 import { AuthenticationService, AuthenticationConfig } from './authentication.service';
 import { UsersRepository } from '../data/repositories/users.repository';
 import { User } from './models/user';
@@ -12,9 +12,9 @@ describe('AuthenticationService', () => {
     let target: AuthenticationService;
     let options: AuthenticationConfig;
     let usersRepository: UsersRepository;
-    let momentFactory: MomentAdapter;
-    let jwt: JwtAdapter;
-    let bcrypt: BcryptAdapter;
+    let moment: () => Moment;
+    let jwt: Jwt;
+    let bcrypt: Bcrypt;
     let timeout: TimeoutAdapter;
 
     let now: Moment;
@@ -22,21 +22,21 @@ describe('AuthenticationService', () => {
     beforeEach(() => {
         options = <AuthenticationConfig>{};
         usersRepository = jasmine.createSpyObj<UsersRepository>('usersRepository', ['findUserByUsername', 'findUserById', 'saveUser']);
-        momentFactory = jasmine.createSpyObj<MomentAdapter>('momentFactory', ['now']);
+        moment = jasmine.createSpy('moment');
         now = jasmine.createSpyObj<Moment>('now', ['unix']);
-        jwt = jasmine.createSpyObj<JwtAdapter>('jwt', ['encode', 'decode']);
-        bcrypt = jasmine.createSpyObj<BcryptAdapter>('bcrypt', ['compare']);
+        jwt = jasmine.createSpyObj<Jwt>('jwt', ['encode', 'decode']);
+        bcrypt = jasmine.createSpyObj<Bcrypt>('bcrypt', ['compare']);
         timeout = jasmine.createSpyObj<TimeoutAdapter>('timeout', ['setTimeout']);
         
         target = new AuthenticationService(
             options,
             usersRepository, 
-            momentFactory,
+            moment,
             jwt,
             bcrypt,
             timeout);
 
-        spy(momentFactory.now).and.returnValue(now);
+        spy(moment).and.returnValue(now);
     });
     
     it('is injectable', () => {

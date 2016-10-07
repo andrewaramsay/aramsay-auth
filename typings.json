@@ -1,12 +1,14 @@
 {
   "globalDependencies": {
     "bcrypt-nodejs": "registry:dt/bcrypt-nodejs#0.0.0+20160316155526",
+    "core-js": "registry:dt/core-js#0.0.0+20160914114559",
     "jasmine": "registry:dt/jasmine#2.5.0+20161003201800",
     "jwt-simple": "registry:dt/jwt-simple#0.5.0+20160401095215",
-    "node": "registry:dt/node#6.0.0+20160928143418"
+    "node": "registry:dt/node#6.0.0+20161006230116"
   },
   "dependencies": {
+    "async": "registry:npm/async#2.0.1+20160815105832",
     "lodash": "registry:npm/lodash#4.0.0+20160723033700",
-    "mongoose": "registry:npm/mongoose#4.3.5+20160628072220"
+    "mongodb": "registry:npm/mongodb#2.1.0+20160721204323"
   }
 }

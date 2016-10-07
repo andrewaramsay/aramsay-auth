@@ -1,21 +1,11 @@
-import { Query } from 'aramsay-framework';
-import { Model } from 'mongoose';
+import { FindUserBase } from './find-user-base';
 
-import { User, UserModel } from '../models/user';
-
-export class FindUserByUsername implements Query<User> {
+export class FindUserByUsername extends FindUserBase {
     constructor(private username: string) {
+        super();
     }
 
-    get model() {
-        return UserModel;
-    }
-
-    get populate() {
-        return ['roles'];
-    }
-
-    get condition() {
+    get filter() {
         return { 
             username: this.username.toLowerCase()
         };

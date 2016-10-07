@@ -1,5 +1,6 @@
 /// <reference path="../../../typings/index.d.ts" />
 import { DatabaseExecutor, spy, callCallback } from 'aramsay-framework';
+import { ObjectID } from 'mongodb';
 import Spy = jasmine.Spy;
 
 import { UsersRepository } from './users.repository';
@@ -19,7 +20,7 @@ describe('UsersRepository', () => {
     beforeEach(() => {
         callback = jasmine.createSpy('callback');
         
-        database = jasmine.createSpyObj<DatabaseExecutor>('database', ['findOne','findById','saveData']);
+        database = jasmine.createSpyObj<DatabaseExecutor>('database', ['findOne', 'update']);
         userMapper = jasmine.createSpyObj<UserMapper>('userMapper', ['mapCallback', 'fromBusinessModel']);
         
         target = new UsersRepository(
@@ -70,24 +71,24 @@ describe('UsersRepository', () => {
             expect(userMapper.fromBusinessModel).toHaveBeenCalledWith(user, jasmine.anything());
         });
 
-        it('skips calling saveData if an error is returned from fromBusinessModel', () => {
+        it('skips calling update if an error is returned from fromBusinessModel', () => {
             let err = new Error('broken');
             spy(userMapper.fromBusinessModel).and.callFake(callCallback(1, err));
             
             target.saveUser(user, callback);
 
-            expect(database.saveData).not.toHaveBeenCalled();
+            expect(database.update).not.toHaveBeenCalled();
             expect(callback).toHaveBeenCalledWith(err);
         });
 
-        it('calls saveData with a SaveUser query', () => {
+        it('calls update with a SaveUser query', () => {
             let dbUser = <DbUser>{ username: 'name' };
             spy(userMapper.fromBusinessModel).and.callFake(callCallback(1, null, dbUser));
 
             target.saveUser(user, callback);
 
-            expect(database.saveData).toHaveBeenCalledTimes(1);
-            let call = spy(database.saveData).calls.first();
+            expect(database.update).toHaveBeenCalledTimes(1);
+            let call = spy(database.update).calls.first();
             expect(call.args[0] instanceof SaveUser).toBeTruthy();
             expect(call.args[0].user).toBe(dbUser);
             expect(call.args[1]).toBe(callback);
@@ -95,17 +96,23 @@ describe('UsersRepository', () => {
     });
 
     describe('findUserById', () => {
-        it('calls findById with a FindUserById query', () => {
-            target.findUserById('id', callback);
+        let id: ObjectID;
 
-            expect(database.findById).toHaveBeenCalledTimes(1);
-            let call = spy(database.findById).calls.first();
+        beforeEach(() => {
+            id = new ObjectID();
+        });
+        
+        it('calls findOne with a FindUserById query', () => {
+            target.findUserById(id, callback);
+
+            expect(database.findOne).toHaveBeenCalledTimes(1);
+            let call = spy(database.findOne).calls.first();
             expect(call.args[0] instanceof FindUserById);
-            expect(call.args[0].userId).toBe('id');
+            expect(call.args[0].userId).toBe(id);
         });
         
         it('calls userMapper.mapCallback with the callback', () => {
-            target.findUserById('id', callback);
+            target.findUserById(id, callback);
 
             expect(userMapper.mapCallback).toHaveBeenCalledWith(callback);
         });
@@ -114,9 +121,9 @@ describe('UsersRepository', () => {
             let mappedCallback = jasmine.createSpy('mappedCallback');
             spy(userMapper.mapCallback).and.returnValue(mappedCallback);
 
-            target.findUserById('id', callback);
+            target.findUserById(id, callback);
 
-            expect(database.findById).toHaveBeenCalledWith(jasmine.anything(), mappedCallback);
+            expect(database.findOne).toHaveBeenCalledWith(jasmine.anything(), mappedCallback);
         });
     });
 });
