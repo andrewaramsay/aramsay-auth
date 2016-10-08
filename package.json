@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "npm test && rimraf dist && tsc --project tsconfig.json",
-    "test": "set JASMINE_CONFIG_PATH=jasmine.json&& jasmine-ts src/**/*.spec.ts --watch src/**/*.ts",
+    "test": "cross-env JASMINE_CONFIG_PATH=jasmine.json jasmine-ts src/**/*.spec.ts",
     "autotest": "nodemon --watch src/**/*.* --exec npm test"
   },
   "keywords": [
@@ -16,6 +16,7 @@
   "author": "Andrew Ramsay <aramsaybusiness@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "cross-env": "^3.1.2",
     "jasmine": "^2.5.2",
     "jasmine-ts": "0.0.3",
     "nodemon": "^1.10.2",
@@ -24,8 +25,8 @@
     "typings": "^1.4.0"
   },
   "dependencies": {
-    "aramsay-framework": "^1.0.3",
-    "aramsay-injector": "^1.0.2",
+    "aramsay-framework": "^1.0.5",
+    "aramsay-injector": "^1.0.5",
     "bcrypt-nodejs": "0.0.3",
     "core-js": "^2.4.1",
     "express": "^4.14.0",
