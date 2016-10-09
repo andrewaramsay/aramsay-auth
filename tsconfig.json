@@ -1,5 +1,6 @@
 {
   "include": [
+    "index.ts",
     "src/**/*.ts",
     "typings/index.d.ts"
   ],

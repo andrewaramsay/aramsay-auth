@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Node TypeScript authentication / authorization system for mongo DB",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "npm test && rimraf dist && tsc --project tsconfig.json",
     "test": "cross-env JASMINE_CONFIG_PATH=jasmine.json jasmine-ts src/**/*.spec.ts",
