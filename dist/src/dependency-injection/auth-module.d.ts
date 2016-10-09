@@ -9,4 +9,6 @@ export interface ModuleDependencies {
 export declare const momentInjectorToken: string;
 export declare const jwtInjectorToken: string;
 export declare const bcryptInjectorToken: string;
-export declare function registerDependencies(dependencies: ModuleDependencies, injector: Injector): void;
+export declare class AuthModule {
+    static registerDependencies(dependencies: ModuleDependencies, injector: Injector): void;
+}

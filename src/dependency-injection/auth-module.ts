@@ -16,20 +16,22 @@ export const momentInjectorToken = 'aramsay-auth:moment';
 export const jwtInjectorToken = 'aramsay-auth:jwt-simple';
 export const bcryptInjectorToken = 'aramsay-auth:bcrypt-nodejs';
 
-export function registerDependencies(dependencies: ModuleDependencies, injector: Injector) {
-    if (!dependencies.moment) {
-        dependencies.moment = () => moment;
-    }
+export class AuthModule {
+    static registerDependencies(dependencies: ModuleDependencies, injector: Injector) {
+        if (!dependencies.moment) {
+            dependencies.moment = () => moment;
+        }
 
-    if (!dependencies.bcrypt) {
-        dependencies.bcrypt = () => { return { compare }; }
-    }
+        if (!dependencies.bcrypt) {
+            dependencies.bcrypt = () => { return { compare }; }
+        }
 
-    if (!dependencies.jwt) {
-        dependencies.jwt = () => { return { encode, decode }; }
+        if (!dependencies.jwt) {
+            dependencies.jwt = () => { return { encode, decode }; }
+        }
+        
+        injector.registerFactory(momentInjectorToken, dependencies.moment);
+        injector.registerFactory(bcryptInjectorToken, dependencies.bcrypt);
+        injector.registerFactory(jwtInjectorToken, dependencies.jwt);
     }
-    
-    injector.registerFactory(momentInjectorToken, dependencies.moment);
-    injector.registerFactory(bcryptInjectorToken, dependencies.bcrypt);
-    injector.registerFactory(jwtInjectorToken, dependencies.jwt);
 }
