@@ -1,0 +1,1 @@
+export { PassportConfig } from './passport';

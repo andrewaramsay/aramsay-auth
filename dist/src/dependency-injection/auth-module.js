@@ -2,9 +2,11 @@
 var bcrypt_nodejs_1 = require('bcrypt-nodejs');
 var jwt_simple_1 = require('jwt-simple');
 var moment = require('moment');
+var passport = require('passport');
 exports.momentInjectorToken = 'aramsay-auth:moment';
 exports.jwtInjectorToken = 'aramsay-auth:jwt-simple';
 exports.bcryptInjectorToken = 'aramsay-auth:bcrypt-nodejs';
+exports.passportInjectorToken = 'aramsay-auth:passport';
 var AuthModule = (function () {
     function AuthModule() {
     }
@@ -18,9 +20,13 @@ var AuthModule = (function () {
         if (!dependencies.jwt) {
             dependencies.jwt = function () { return { encode: jwt_simple_1.encode, decode: jwt_simple_1.decode }; };
         }
+        if (!dependencies.passport) {
+            dependencies.passport = function () { return passport; };
+        }
         injector.registerFactory(exports.momentInjectorToken, dependencies.moment);
         injector.registerFactory(exports.bcryptInjectorToken, dependencies.bcrypt);
         injector.registerFactory(exports.jwtInjectorToken, dependencies.jwt);
+        injector.registerFactory(exports.passportInjectorToken, dependencies.passport);
     };
     return AuthModule;
 }());

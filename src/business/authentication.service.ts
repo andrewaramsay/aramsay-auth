@@ -21,7 +21,7 @@ export interface AuthenticationConfig {
 @Injectable({ singleton: true })
 export class AuthenticationService {
     constructor(
-        private options: AuthenticationConfig,
+        private options: AuthenticationConfig, // TODO: What is this dependency, really
         private usersRepository: UsersRepository,
         @Inject(momentInjectorToken) private moment: () => Moment,
         @Inject(jwtInjectorToken) private jwt: Jwt,
@@ -76,8 +76,9 @@ export class AuthenticationService {
     }
 
     private delayLoginFailedResponse(failedAttempts: number, callback: AuthCallback<User>): void {
-        let calculatedWaitTime = Math.pow(this.options.loginFailedSlowdownFactor, failedAttempts);
+        let calculatedWaitTime = this.options.loginFailedSlowdownFactor ** failedAttempts;
         let waitTimeSeconds = Math.min(calculatedWaitTime, this.options.loginFailedMaxWaitTime);
+        Math.trunc
 
         this.timeout.setTimeout(() => {
             callback(null, null, new Error('Invalid Username/Password, or account is locked.'));

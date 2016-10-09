@@ -17,7 +17,8 @@ var users_repository_1 = require('../data/repositories/users.repository');
 var auth_module_1 = require('../dependency-injection/auth-module');
 var MILLISECONDS = 1000;
 var AuthenticationService = (function () {
-    function AuthenticationService(options, usersRepository, moment, jwt, bcrypt, timeout) {
+    function AuthenticationService(options, // TODO: What is this dependency, really
+        usersRepository, moment, jwt, bcrypt, timeout) {
         this.options = options;
         this.usersRepository = usersRepository;
         this.moment = moment;
@@ -69,6 +70,7 @@ var AuthenticationService = (function () {
     AuthenticationService.prototype.delayLoginFailedResponse = function (failedAttempts, callback) {
         var calculatedWaitTime = Math.pow(this.options.loginFailedSlowdownFactor, failedAttempts);
         var waitTimeSeconds = Math.min(calculatedWaitTime, this.options.loginFailedMaxWaitTime);
+        Math.trunc;
         this.timeout.setTimeout(function () {
             callback(null, null, new Error('Invalid Username/Password, or account is locked.'));
         }, waitTimeSeconds * MILLISECONDS);
