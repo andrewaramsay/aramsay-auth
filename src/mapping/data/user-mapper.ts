@@ -1,10 +1,10 @@
 import { TypeMapper, NodeCallback } from 'aramsay-framework';
-import { Injectable } from 'aramsay-injector';
+import { Injectable, InstanceMode } from 'aramsay-injector';
 
 import { User } from '../../business/models/user';
 import { User as DbUser } from '../../data/models/user';
 
-@Injectable({ singleton: true })
+@Injectable({ instanceMode: InstanceMode.SingleInstance })
 export class UserMapper extends TypeMapper<User, DbUser> {
     toBusinessModel(source: DbUser, callback: NodeCallback<User>): void {
         let destination = <User>{};

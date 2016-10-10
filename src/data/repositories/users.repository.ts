@@ -1,4 +1,4 @@
-import { Injectable } from 'aramsay-injector';
+import { Injectable, InstanceMode } from 'aramsay-injector';
 import { NodeCallback, VoidNodeCallback, DatabaseExecutor } from 'aramsay-framework';
 import { ObjectID } from 'mongodb';
 
@@ -8,7 +8,7 @@ import { FindUserById } from '../queries/find-user-by-id';
 import { SaveUser } from '../queries/save-user';
 import { UserMapper } from '../../mapping/data';
 
-@Injectable({ singleton: true })
+@Injectable({ instanceMode: InstanceMode.SingleInstance })
 export class UsersRepository {
     constructor(
         private database: DatabaseExecutor,

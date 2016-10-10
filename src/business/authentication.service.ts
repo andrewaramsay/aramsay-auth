@@ -1,5 +1,5 @@
 import { NodeCallback, TimeoutAdapter } from 'aramsay-framework';
-import { Injectable, Inject } from 'aramsay-injector';
+import { Injectable, Inject, InstanceMode } from 'aramsay-injector';
 import { Moment } from 'moment';
 
 import { Bcrypt, Jwt } from '../util';
@@ -18,7 +18,7 @@ export interface AuthenticationConfig {
     tokenDurationInSeconds: number;
 }
 
-@Injectable({ singleton: true })
+@Injectable({ instanceMode: InstanceMode.SingleInstance })
 export class AuthenticationService {
     constructor(
         private options: AuthenticationConfig, // TODO: What is this dependency, really
