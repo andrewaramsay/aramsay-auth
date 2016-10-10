@@ -35,7 +35,7 @@ var UsersRepository = (function () {
         this.database.findOne(new find_user_by_id_1.FindUserById(userId), this.userMapper.mapCallback(callback));
     };
     UsersRepository = __decorate([
-        aramsay_injector_1.Injectable({ singleton: true }), 
+        aramsay_injector_1.Injectable({ instanceMode: aramsay_injector_1.InstanceMode.SingleInstance }), 
         __metadata('design:paramtypes', [aramsay_framework_1.DatabaseExecutor, data_1.UserMapper])
     ], UsersRepository);
     return UsersRepository;

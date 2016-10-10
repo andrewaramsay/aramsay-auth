@@ -1,4 +1,4 @@
-import { Inject, Injectable } from 'aramsay-injector';
+import { Inject, Injectable, InstanceMode } from 'aramsay-injector';
 import { Application } from 'express';
 import { Strategy as BearerStrategy } from 'passport-http-bearer';
 import { Strategy as LocalStrategy } from 'passport-local';
@@ -8,7 +8,7 @@ import { AuthenticationService, UsersService } from '../business';
 import { Passport } from '../util';
 import { passportInjectorToken } from '../dependency-injection/auth-module';
 
-@Injectable({ singleton: true })
+@Injectable({ instanceMode: InstanceMode.SingleInstance })
 export class PassportConfig {
     private initialized: boolean;
     

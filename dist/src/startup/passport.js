@@ -38,7 +38,7 @@ var PassportConfig = (function () {
         this.initialized = true;
     };
     PassportConfig = __decorate([
-        aramsay_injector_1.Injectable({ singleton: true }),
+        aramsay_injector_1.Injectable({ instanceMode: aramsay_injector_1.InstanceMode.SingleInstance }),
         __param(2, aramsay_injector_1.Inject(auth_module_1.passportInjectorToken)), 
         __metadata('design:paramtypes', [business_1.AuthenticationService, business_1.UsersService, Object])
     ], PassportConfig);

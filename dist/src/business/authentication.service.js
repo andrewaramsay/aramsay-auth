@@ -114,7 +114,7 @@ var AuthenticationService = (function () {
         };
     };
     AuthenticationService = __decorate([
-        aramsay_injector_1.Injectable({ singleton: true }),
+        aramsay_injector_1.Injectable({ instanceMode: aramsay_injector_1.InstanceMode.SingleInstance }),
         __param(2, aramsay_injector_1.Inject(auth_module_1.momentInjectorToken)),
         __param(3, aramsay_injector_1.Inject(auth_module_1.jwtInjectorToken)),
         __param(4, aramsay_injector_1.Inject(auth_module_1.bcryptInjectorToken)), 

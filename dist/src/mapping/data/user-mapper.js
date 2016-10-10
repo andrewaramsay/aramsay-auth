@@ -33,7 +33,7 @@ var UserMapper = (function (_super) {
         callback(null, destination);
     };
     UserMapper = __decorate([
-        aramsay_injector_1.Injectable({ singleton: true }), 
+        aramsay_injector_1.Injectable({ instanceMode: aramsay_injector_1.InstanceMode.SingleInstance }), 
         __metadata('design:paramtypes', [])
     ], UserMapper);
     return UserMapper;
